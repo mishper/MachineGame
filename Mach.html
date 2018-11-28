@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	<meta charset="UTF-8">
+	<title>MachGame</title>
+	<link rel="stylesheet" href="stylesheet.css" type="text/css">
+	<script src="myscripts.js"></script>
+	</head>
+	<body>
+		<div id="mainCont">
+			<div id="mainView">
+				<div id="ground"></div>
+				<div id="player"></div>
+			</div>
+			<div id="hud">
+				<div id="moveButtons">
+					<button onClick="move('up')">UP</button>
+					<button onClick="move('left')">LEFT</button>
+					<button onClick="move('right')">RIGHT</button>
+					<button onClick="move('down')">DOWN</button>
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript">
+		function autorun(){init();}
+		if (window.addEventListener) window.addEventListener("load", autorun, false);
+		else if (window.attachEvent) window.attachEvent("onload", autorun);
+		else window.onload = autorun;
+		</script>
+	</body>
+</html>

@@ -1,0 +1,45 @@
+#mainCont{
+	width: 800px;
+	height: 800px;
+}
+#mainView{
+	background-color: #ddd;
+	width: 100%;
+	height: 600px;
+	position: relative;
+}
+#ground div{
+	display: inline-block;
+	width: 25px;
+	height: 25px;
+	margin: 0 0 -4px 0;
+	opacity: 0;
+	-webkit-transition: all .5s ease-in-out;
+	-moz-transition: all .5s ease-in-out;
+	-o-transition: all .5s ease-in-out;
+	transition: all .5s ease-in-out;
+}
+#hud{
+	background-color: #999;
+	width: 100%;
+	height: 200px;
+}
+#player{
+	margin: 5px;
+	width: 15px;
+	height: 15px;
+	background-color: #333;
+	position: absolute;
+	border-radius: 5px;
+	-webkit-box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.25);
+	-moz-box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.25);
+	box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.25);
+	-webkit-transition: all .5s ease-in-out;
+	-moz-transition: all .5s ease-in-out;
+	-o-transition: all .5s ease-in-out;
+	transition: all .5s ease-in-out;
+}
+
+
+
+
