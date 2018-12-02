@@ -13,20 +13,28 @@
 				<div id="player"></div>
 			</div>
 			<div id="hud">
-				<div id="gauges">
-					<div class="hudLabel">Fuel</div>
-					<div id="fuel"><div id="amount"></div></div>
+				<div id="mainHud">
+					<div id="gauges">
+						<div class="hudLabel">Vessel Info</div>
+						<div class="gauge" id="fuel"><div id="famt"></div></div>
+						<div class="gauge" id="biomass"><div id="bamt"></div></div>
+					</div>
+					<div id="tileInfo">
+						<div class="hudLabel">Tile Info</div>
+						<div id="infoCont"></div>
+					</div>
+					<div id="moveButtons">
+						<div class="hudLabel">Move Actions</div>
+						<button onClick="advance('up')">UP</button>
+						<button onClick="advance('left')">LEFT</button>
+						<button onClick="advance('right')">RIGHT</button>
+						<button onClick="advance('down')">DOWN</button>
+						<button onClick="advance('stay')">STAY</button>
+					</div>
 				</div>
-				<div id="tileInfo">
-					<div class="hudLabel">Tile Info</div>
-					<div id="infoCont"></div>
-				</div>
-				<div id="moveButtons">
-					<div class="hudLabel">Move Actions</div>
-					<button onClick="move('up')">UP</button>
-					<button onClick="move('left')">LEFT</button>
-					<button onClick="move('right')">RIGHT</button>
-					<button onClick="move('down')">DOWN</button>
+				<div id="hood">
+					<div class="hudLabel">Open the Hood</div>
+					<div id="vesselContents" onClick="popHood()"></div>
 				</div>
 			</div>
 		</div>
