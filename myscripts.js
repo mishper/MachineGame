@@ -52,6 +52,39 @@ class HUD {
 		let tile = world.tiles[world.player.x+world.player.y*zoom];
 		this.infoCont.innerHTML = tile.info();
 	}
+	updateHood(){
+		document.getElementById("vesselStats").innerHTML = world.player.info();
+		let output = "";
+		output +="<div class='hudLabel'>Chassis</div>";
+		output += world.player.chassis.info();
+		output +="<div class='hudLabel'>Trunks</div>";
+		for(let i = 0; i < world.player.trunks.length; i++){
+			output += world.player.trunks[i].info();
+		}
+		output +="<div class='hudLabel'>Tanks</div>";
+		for(let i = 0; i < world.player.tanks.length; i++){
+			output += world.player.tanks[i].info();
+		}
+		output +="<div class='hudLabel'>Engines</div>";
+		for(let i = 0; i < world.player.engines.length; i++){
+			output += world.player.engines[i].info();
+		}
+		output +="<div class='hudLabel'>Digesters</div>";
+		for(let i = 0; i < world.player.digesters.length; i++){
+			output += world.player.digesters[i].info();
+		}
+		document.getElementById("vesselContents").innerHTML = output;
+	}
+	popHood(){
+		this.updateHood();
+		if(this.hoodPopped){
+			this.hoodPopped = false;
+			hood.style.height = "18px";
+		}else{
+			this.hoodPopped = true;
+			hood.style.height = "570px";
+		}
+	}
 }
 class Tile {
 	constructor(x,y,elem) {
@@ -63,7 +96,7 @@ class Tile {
 		this.wasVisible = false;
 		this.elem.style.backgroundColor = this.c;
 		this.content = [];
-		if(Math.random() > .7){
+		if(Math.random() > .5){
 			let biomSpot = new BiomSpot();
 			this.content.push(biomSpot);
 			this.elem.appendChild(biomSpot.elem);
@@ -79,9 +112,9 @@ class Tile {
 			for(let i = 0; i < this.content.length; i++){
 				output += this.content[0].info(i);
 			}
-			return output
+			return output;
 		}else{
-			return "<p>Looks like nothings here<p>";
+			return "<div class='tileItem'><div class='tileItemName'>Looks like nothing is here...</div></div>";
 		}
 	}
 	update(){
@@ -193,7 +226,7 @@ class Player {
 		let calcBa = 0; //temp for biomass amount
 		let calcF = 0; //temp for fuel tank capacity
 		let calcB = 0; //temp for biomass tank capacity
-		calcW += this.chassis;
+		calcW += this.chassis.weight;
 		for(let i = 0; i < this.trunks.length; i++){
 			let comp = this.trunks[i];
 			calcW += comp.weight;
@@ -282,6 +315,16 @@ class Player {
 			}
 		}
 	}
+	info(){
+		let output = "";
+		output += "<div class='vesselContent'><div>Total Weight: "+this.weight+"</div></div>";
+		output += "<div class='vesselContent'><div>Move Cost: "+this.moveCost+"</div></div>";
+		output += "<div class='vesselContent'><div>Total Fuel Capacity: "+this.fuelTankSize+"</div></div>";
+		output += "<div class='vesselContent'><div>Total Fuel: "+this.fuel+"</div></div>";
+		output += "<div class='vesselContent'><div>Total Biomass Capacity: "+this.biomTankSize+"</div></div>";
+		output += "<div class='vesselContent'><div>Total Biomass: "+this.biom+"</div></div>";
+		return output;
+	}
 }
 class Component{
 	constructor(type, qual, cond, weight){
@@ -292,18 +335,25 @@ class Component{
 		this.working = true;
 	}
 	doWork(){}
+	info(){return "";}
 }
 class Chassis extends Component{
 	constructor(qual, cond, weight){
 		super("chassis", qual, cond, weight);
 	}
 	doWork(){}
+	info(){
+		return "<div class='vesselContent'><div>Regular Chasis "+this.quality+" "+this.condition+" "+this.weight+"</div></div>";
+	}
 }
 class Trunk extends Component{
 	constructor(qual, cond, weight, size){
 		super("trunk", qual, cond, weight);
 	}
 	doWork(){}
+	info(){
+		return "<div class='vesselContent'><div>Regular Trunk "+this.quality+" "+this.condition+" "+this.weight+"</div></div>";
+	}
 }
 class Tank extends Component{
 	constructor(qual, cond, weight, size, content, amount){
@@ -313,6 +363,9 @@ class Tank extends Component{
 		this.amount = amount;
 	}
 	doWork(){}
+	info(){
+		return "<div class='vesselContent'><div>Regular Tank "+this.quality+" "+this.condition+" "+this.weight+"</div></div>";
+	}
 }
 class Engine extends Component{
 	constructor(qual, cond, weight, efficiency){
@@ -340,6 +393,9 @@ class Engine extends Component{
 			}
 		}
 	}
+	info(){
+		return "<div class='vesselContent'><div>Regular Engine "+this.quality+" "+this.condition+" "+this.weight+"</div></div>";
+	}
 }
 class Digester extends Component{
 	constructor(qual, cond, weight, efficiency){
@@ -349,8 +405,8 @@ class Digester extends Component{
 	}
 	doWork(){
 		let cost = 10;
-		if(world.player.fuel > 2 && world.player.biom > cost){
-			world.player.burn(2);
+		if(world.player.fuel > 1 && world.player.biom > cost){
+			world.player.burn(1);
 			for(let i = 0; i < world.player.tanks.length; i++){
 				let comp = world.player.tanks[i];
 				if(comp.content == "biom"){
@@ -363,8 +419,11 @@ class Digester extends Component{
 					}
 				}
 			}
-			world.player.addToTanks("fuel",5);
+			world.player.addToTanks("fuel",8);
 		}
+	}
+	info(){
+		return "<div class='vesselContent'><div>Regular Digester "+this.quality+" "+this.condition+" "+this.weight+"</div></div>";
 	}
 }
 
